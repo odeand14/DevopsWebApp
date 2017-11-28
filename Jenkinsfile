@@ -12,8 +12,20 @@ pipeline {
                 maven "apache-maven-3.3.9"
             }
             steps{
-                sh('mvn clean install')
+                sh('mvn clean deploy')
+                sh('docker build . -t devops')
                 mystep("Test")
+            }
+        }
+        stage('deploy') {
+            agent{
+                label 'slave'
+            }
+            tools{
+
+            }
+            steps{
+                sh('docker run -p 80:80 devops:latest')
             }
         }
     }

@@ -22,7 +22,7 @@ pipeline {
                 label 'slave'
             }
             tools{
-                docker 'docker'
+                Docker 'docker-newest'
             }
             steps{
                 sh('cd reactDevops')
@@ -37,7 +37,7 @@ pipeline {
                 label 'slave'
             }
             tools{
-                docker 'docker'
+                Docker 'docker-newest'
             }
             steps{
                 script{

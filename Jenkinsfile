@@ -23,7 +23,9 @@ pipeline {
                 label 'slave'
             }
             steps{
-                app = docker.build("reactDevops")
+                script{
+                    app = docker.build("reactDevops")
+                }
             }
         }
 
@@ -32,9 +34,11 @@ pipeline {
                 label 'slave'
             }
             steps{
-                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                    app.push("${env.BUILD_NUMBER}")
-                    app.push("latest")
+                script{
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        app.push("${env.BUILD_NUMBER}")
+                        app.push("latest")
+                    }
                 }
             }
         }

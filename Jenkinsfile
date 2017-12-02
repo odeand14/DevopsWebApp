@@ -13,7 +13,7 @@ pipeline {
             }
             steps{
                 sh('cd reactDevops')
-                sh('mvn clean deploy')
+                sh('mvn clean compile')
                 sh('docker build . -t devops')
                 mystep("Test")
             }

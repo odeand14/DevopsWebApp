@@ -21,7 +21,7 @@ pipeline {
             }
             steps{
                 script{
-                    app = docker.build('exam -f reactDevops/')
+                    app = docker.build('exam -f reactDevops/Dockerfile')
                 }
                 sh('echo test')
             }

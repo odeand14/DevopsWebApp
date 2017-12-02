@@ -2,13 +2,13 @@ FROM node:8-alpine
 
 WORKDIR /usr/src/app
 
-COPY package.json .
-COPY yarn.lock .
+COPY ./reactDevops/package.json .
+COPY ./reactDevops/yarn.lock .
 
 RUN yarn
 
-COPY build build
-COPY server/server.js server/server.js
+COPY ./reactDevops/build build
+COPY ./reactDevops/server/server.js server/server.js
 
 EXPOSE 8080
 

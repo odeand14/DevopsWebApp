@@ -19,13 +19,23 @@ pipeline {
             }
         }
         stage('build docker image') {
-            app = docker.build("reactDevops")
+            agent{
+                label 'slave'
+            }
+            steps{
+                app = docker.build("reactDevops")
+            }
         }
 
         stage('push image') {
-             docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                app.push("${env.BUILD_NUMBER}")
-                app.push("latest")
+            agent{
+                label 'slave'
+            }
+            steps{
+                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                    app.push("${env.BUILD_NUMBER}")
+                    app.push("latest")
+                }
             }
         }
     }

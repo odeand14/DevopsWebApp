@@ -13,6 +13,7 @@ pipeline {
             }
             steps{
                 sh('mvn clean compile')
+                sh('cp -r ./reactDevops/build .')
             }
         }
         stage('build docker image') {
@@ -21,7 +22,7 @@ pipeline {
             }
             steps{
                 script{
-                    app = docker.build('exam -f reactDevops/Dockerfile')
+                    app = docker.build('exam')
                 }
                 sh('echo test')
             }

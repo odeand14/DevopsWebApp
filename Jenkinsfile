@@ -18,9 +18,9 @@ pipeline {
             }
         }
         stage('build and push docker image') {
-            def app
-
             node {
+                def app
+
                 app = docker.build("reactDevops")
 
                 docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {

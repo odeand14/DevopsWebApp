@@ -1,7 +1,7 @@
 @Library("jenkins shared library")_
 
 pipeline {
-    def app
+
     agent any
     stages{
         stage('build in maven and node') {
@@ -17,15 +17,22 @@ pipeline {
                 sh('cd reactDevops')
             }
         }
-        stage('build docker image') {
-            app = docker.build("reactDevops")
+        stage('build and push docker image') {
+            def app
+
+            node {
+                app = docker.build("reactDevops")
+
+                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                                app.push("${env.BUILD_NUMBER}")
+                                app.push("latest")
+                            }
+            }
+
         }
 
-        stage('push image') {
-             docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                app.push("${env.BUILD_NUMBER}")
-                app.push("latest")
-            }
+        stage('create server') {
+
         }
     }
 }

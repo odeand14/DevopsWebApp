@@ -21,9 +21,6 @@ pipeline {
             agent{
                 label 'slave'
             }
-            tools{
-                Docker 'docker-newest'
-            }
             steps{
                 sh('cd reactDevops')
                 script{
@@ -35,9 +32,6 @@ pipeline {
         stage('push image') {
             agent{
                 label 'slave'
-            }
-            tools{
-                Docker 'docker-newest'
             }
             steps{
                 script{

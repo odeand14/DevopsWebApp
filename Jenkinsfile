@@ -20,7 +20,6 @@ pipeline {
                 label 'slave'
             }
             steps{
-                sh('cd reactDevops')
                 script{
                     app = docker.build('exam -f reactDevops/Dockerfile')
                 }
@@ -33,6 +32,7 @@ pipeline {
             }
             steps{
                 script{
+                    sh('cd reactDevops')
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
                         app.push("${env.BUILD_NUMBER}")
                         app.push("latest")

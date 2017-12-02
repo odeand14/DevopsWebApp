@@ -2,6 +2,9 @@
 
 pipeline {
     agent any
+    triggers{
+        pollSCM('H 4/* 0 0 1-5')
+    }
     stages{
         stage('build') {
             agent{
@@ -13,19 +16,16 @@ pipeline {
             }
             steps{
                 sh('mvn clean deploy')
-                sh('docker build . -t devops')
+                sh('docker build ./reactDevops -t devops')
                 mystep("Test")
             }
         }
         stage('deploy') {
             agent{
-                label 'slave'
-            }
-            tools{
-
+                dockerfile { dir 'reactDevops' }
             }
             steps{
-                sh('docker run -p 80:80 devops:latest')
+                sh('docker run -p 80:80 reactdevops:latest')
             }
         }
     }

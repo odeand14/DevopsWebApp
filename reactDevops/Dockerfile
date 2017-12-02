@@ -20,4 +20,4 @@ FROM httpd:2.4
 # all the given static resources that are under a specific folder
 
 
-COPY ./build/   /usr/local/apache2/htdocs/
+COPY ./reactDevops/build  /usr/local/apache2/htdocs/

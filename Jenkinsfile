@@ -22,7 +22,7 @@ pipeline {
             steps{
                 sh('cd reactDevops')
                 script{
-                    app = docker.build("reactdevops")
+                    app = docker.build()
                 }
             }
         }

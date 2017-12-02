@@ -15,7 +15,6 @@ pipeline {
             }
             steps{
                 sh('mvn clean compile')
-                sh('cd reactDevops')
             }
         }
         stage('build docker image') {
@@ -23,6 +22,7 @@ pipeline {
                 label 'slave'
             }
             steps{
+                sh('cd reactDevops')
                 script{
                     app = docker.build("reactDevops")
                 }

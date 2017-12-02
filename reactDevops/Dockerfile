@@ -2,10 +2,6 @@ FROM node:8-alpine
 
 WORKDIR /usr/src/app
 
-COPY ./reactDevops/package.json .
-COPY ./reactDevops/yarn.lock .
-
-RUN yarn
 
 COPY ./reactDevops/build build
 COPY ./reactDevops/server/server.js server/server.js

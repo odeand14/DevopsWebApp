@@ -22,7 +22,7 @@ pipeline {
             }
             steps{
                 script{
-                    app = docker.build('devopsexam')
+                    app = docker.build('odeand14/devopsexam')
                 }
                 sh('echo test')
             }

@@ -1,0 +1,59 @@
+---
+# Playbook
+- name: Create VM for app
+  hosts: localhost
+  vars:
+    service_account_email: "devops@devopsexamproject.iam.gserviceaccount.com"
+    credentials_file: "../DevopsExamProject-02241d8a5fa8.json"
+    project_id: "devopsexamproject"
+  tasks:
+
+    - name: Hello, world
+      shell: echo "Hello, world"
+
+    - name: create virtual machine
+      gce:
+        instance_names: devops1
+        zone: europe-west1-d
+        machine_type: n1-standard-1
+        image: debian-8
+        state: present
+        service_account_email: "{{ service_account_email }}"
+        credentials_file: "{{ credentials_file }}"
+        project_id: "{{ project_id }}"
+        metadata : '{ "startup-script" : "apt-get update" }'
+        tags:
+          - http-server
+        preemptible: true
+        ip_forward: true
+        service_account_permissions:
+          - storage-full
+          - taskqueue
+          - bigquery
+      register: gce
+
+    - name: Save host data
+      add_host:
+        hostname: "{{ item.public_ip }}"
+        groupname: gce_instances_ips
+      with_items: "{{ gce.instance_data }}"
+
+    - name: Wait for SSH for instances
+      wait_for:
+        delay: 1
+        host: "{{ item.public_ip }}"
+        port: 22
+        state: started
+        timeout: 30
+      with_items: "{{ gce.instance_data }}"
+
+#    - name: delete test-instance
+#      gce:
+#        service_account_email: "{{ service_account_email }}"
+#        credentials_file: "{{ credentials_file }}"
+#        project_id: "{{ project_id }}"
+#        instance_names: "{{ gce.instance_name }}"
+#        zone: europe-west1-d
+#        state: absent
+#      tags:
+#        - delete

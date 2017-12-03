@@ -24,7 +24,6 @@ pipeline {
                 script{
                     app = docker.build('odeand14/devopsexam')
                 }
-                sh('echo test')
             }
         }
 
@@ -39,6 +38,15 @@ pipeline {
                         app.push("latest")
                     }
                 }
+            }
+        }
+
+        stage('Create VM in Google Cloud')  {
+            agent{
+                label 'slave'
+            }
+            steps{
+                sh 'ansible-playbook gceserver.yml'
             }
         }
     }

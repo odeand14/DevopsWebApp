@@ -17,13 +17,34 @@ export default class Inspiration extends React.Component {
                     <tbody>
                     <tr>
                         <td className="lead">
-                            yep
+                            <a href="https://github.com/odeand14/DevopsWebApp">GitHub repo</a>
                         </td>
                         <td className="lead">
-                            yap
+                            Repo on github with sourcecode
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="lead">
+                            <a href="https://hub.docker.com/r/odeand14/devopsexam/">DockerHub repo</a>
                         </td>
                         <td className="lead">
-                            yup
+                            Repo on dockerhub with image built from pipeline
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="lead">
+                            <a href="../README.md">Readme</a>
+                        </td>
+                        <td className="lead">
+                            Readme file
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="lead">
+                            <a href="https://getintodevops.com/">Devops webpage</a>
+                        </td>
+                        <td className="lead">
+                            Page I used a lot for help
                         </td>
                     </tr>
                     </tbody>

@@ -9,9 +9,7 @@ export default class Header extends React.Component {
 
                 <ul className="navbar-nav ml-auto">
 
-                    <li className="nav-item mx-2">
-                        <input type="text" className="form-inline form-control" placeholder="Search on name" onChange={this.props.searchItems.bind(this)}/>
-                    </li>
+                    <h2>DevOps Exam Andreas Ødegaard</h2>
 
                 </ul>
 

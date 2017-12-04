@@ -5,9 +5,8 @@ export default class InspirationListHeader extends React.Component {
         return(
             <thead>
             <tr className="lead">
-                <th>Name</th>
-                <th>Race</th>
-                <th>User</th>
+                <th>Links</th>
+                <th>Comments</th>
             </tr>
             </thead>
         );

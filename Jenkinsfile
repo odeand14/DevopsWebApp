@@ -55,7 +55,7 @@ pipeline {
                 label 'slave'
             }
             tools{
-                (google cloud sdk) 'gcloud'
+                gcloud
             }
             steps{
                 sh 'gcloud compute ssh odeand@devops1'

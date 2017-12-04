@@ -55,6 +55,7 @@ pipeline {
                 label 'slave'
             }
             steps{
+                sh 'export PATH="/usr/lib/google-cloud-sdk/bin:$PATH"'
                 sh 'gcloud compute ssh odeand@devops1'
                 sh 'sudo su -'
                 sh 'sudo apt-get update && \

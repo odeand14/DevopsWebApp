@@ -30,8 +30,7 @@
           - storage-full
           - taskqueue
           - bigquery
-          - allow-internal
-          - allow-ssh
+          - compute-rw
       register: gce
 
     - name: Save host data

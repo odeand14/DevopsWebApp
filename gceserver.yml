@@ -48,46 +48,36 @@
         timeout: 30
       with_items: "{{ gce.instance_data }}"
 
-- name: Install docker on new image
-  hosts: gce_instance_ip
-  connection: ssh
-  become: true
-  tasks:
-    - name: ensure repository key is installed
-      apt_key:
-        id: "58118E89F3A912897C070ADBF76221572C52609D"
-        keyserver: "hkp://p80.pool.sks-keyservers.net:80"
-        state: present
-
-    - name: ensure docker registry is available
-      # For Ubuntu 14.04 LTS, use this repository:
-      apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-trusty main' state=present
-      # For Ubuntu 16.04 LTS, use this repo instead:
-      # apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-xenial main' state=present
-      # Need to change img or find other repo..
-
-    - name: ensure docker and dependencies are installed
-      apt: name=docker-engine update_cache=yes
-
-    - service: name=docker state=restarted
-
-- name: Download and start container
-  hosts: gce_instance_ip
-  connection: ssh
-  become: true
-
-  tasks:
-#    - name: log into docker hub registry
-#      docker_login:
-#        email: "your-email@address"
-#        username: "a-dockerhub-username"
-#        password: "a-dockerhub-password"
-
-    - name: ensure a container is running
-      docker_container:
-        name: odeand14/devopsexam
-        state: started
-        image: "odeand14/devopsexam:latest"
-        pull: true
-        ports:
-          - "80:80"
+# NOT WORKING :(
+#- name: Install docker on new image
+#  hosts: gce_instance_ip
+#  connection: ssh
+#  become: true
+#  tasks:
+#    - name: ensure repository key is installed
+#      apt_key:
+#        id: "58118E89F3A912897C070ADBF76221572C52609D"
+#        keyserver: "hkp://p80.pool.sks-keyservers.net:80"
+#        state: present
+#
+#    - name: ensure docker registry is available
+#      apt_repository: repo='deb https://apt.dockerproject.org/repo debian-jessie main' state=present
+#
+#    - name: ensure docker and dependencies are installed
+#      apt: name=docker-engine update_cache=yes
+#
+#    - service: name=docker state=restarted
+#
+#- name: Download and start container
+#  hosts: gce_instance_ip
+#  connection: ssh
+#  become: true
+#  tasks:
+#    - name: ensure a container is running
+#      docker_container:
+#        name: odeand14/devopsexam
+#        state: started
+#        image: "odeand14/devopsexam:latest"
+#        pull: true
+#        ports:
+#          - "80:80"

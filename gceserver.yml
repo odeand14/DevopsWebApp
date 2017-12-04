@@ -30,6 +30,14 @@
           - storage-full
           - taskqueue
           - bigquery
+          - allow-internal
+          - allow-ssh
+        ssh_password_enabled: false
+        ssh_public_keys:
+          - path: "/root/.ssh/google_compute_engine"
+          - key_data: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDS1FtNfZpHAaXYV5mRXSL5FfFkk4OjPQM8yO4/3DFpWRxqjCE+K2QbUJ/FJDepUam9cHGgyAiUMIllwRrgO7+HMY4Pgh9pxsoIapoJKIgidOB6M9+R5migFc8yt0eB58Oz56rCJAqflawQpNiGjgXf7vrpwWf/J6Pe4xf+DwmX5auu2lmgDWC4UYdn5g0+XMMeHEbrZHQ/xjaYWxV5hgh5yGKnvdyfd9Ejsk3tY7eeirsvnvum2VQC7s8exSQVLsJ/FpPUbeQjEAMDjNF+p0rN2GFGbeNiFgMfX3QR2lUh7wstqAFgjaLQLxKwLACv85vLnjguhYTDj4u8a4aJVm7r root@39954732a2a4"
+          - path: "/root/.ssh/google-ssh-key"
+          - key_data: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDA4AW3QCFlmW3hb/V5aooabyrEajeBdPj4QpU2/rQJvp2x/0cIx9/BKIL+jGkmy10g/Vh8/Q6SzcFl96w4KUYGKdJLenGgYysW2XvCGJ+V3f+oPlipI/9KP5XrvE5kPO2kCdbrs+ZHJbSnq/TIqhcNOWW8+UPB8wqNydsTqnYeSQnJycv2FMHDdlGzFPrdSV3DP7yxPs01GkTwyC4b6TBx5AqSJ/2L24oBFZAPdhJbvdIxYlm1b4xw0Ufs4rbfMJhnXa15ZWkrLJTk2ExbSrhlOOSkyWdJ3e7WzPbvXaYAqAiJ5PVn5C2cHstQB0F1GalPKm6AkGZhMiL/1jxCt3XV root"
       register: gce
 
     - name: Save host data
@@ -63,6 +71,7 @@
       apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-trusty main' state=present
       # For Ubuntu 16.04 LTS, use this repo instead:
       # apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-xenial main' state=present
+      # Need to change img or find other repo..
 
     - name: ensure docker and dependencies are installed
       apt: name=docker-engine update_cache=yes
@@ -89,15 +98,3 @@
         pull: true
         ports:
           - "80:80"
-
-
-#    - name: delete test-instance
-#      gce:
-#        service_account_email: "{{ service_account_email }}"
-#        credentials_file: "{{ credentials_file }}"
-#        project_id: "{{ project_id }}"
-#        instance_names: "{{ gce.instance_name }}"
-#        zone: europe-west1-d
-#        state: absent
-#      tags:
-#        - delete

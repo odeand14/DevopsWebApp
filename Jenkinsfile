@@ -54,9 +54,6 @@ pipeline {
             agent{
                 label 'slave'
             }
-            tools{
-                gcloud
-            }
             steps{
                 sh 'gcloud compute ssh odeand@devops1'
                 sh 'sudo su -'

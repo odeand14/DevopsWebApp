@@ -24,7 +24,7 @@
         metadata : '{ "startup-script" : "apt-get update" }'
         tags:
           - http-server
-        preemptible: true
+          - webserver
         ip_forward: true
         service_account_permissions:
           - storage-full
@@ -35,10 +35,10 @@
     - name: Save host data
       add_host:
         hostname: "{{ item.public_ip }}"
-        groupname: gce_instances_ips
+        groupname: gce_instance_ip
       with_items: "{{ gce.instance_data }}"
 
-    - name: Wait for SSH for instances
+    - name: Wait for SSH for instance
       wait_for:
         delay: 1
         host: "{{ item.public_ip }}"
@@ -46,6 +46,50 @@
         state: started
         timeout: 30
       with_items: "{{ gce.instance_data }}"
+
+- name: Install docker on new image
+  hosts: gce_instance_ip
+  connection: ssh
+  become: true
+  tasks:
+    - name: ensure repository key is installed
+      apt_key:
+        id: "58118E89F3A912897C070ADBF76221572C52609D"
+        keyserver: "hkp://p80.pool.sks-keyservers.net:80"
+        state: present
+
+    - name: ensure docker registry is available
+      # For Ubuntu 14.04 LTS, use this repository:
+      apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-trusty main' state=present
+      # For Ubuntu 16.04 LTS, use this repo instead:
+      # apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-xenial main' state=present
+
+    - name: ensure docker and dependencies are installed
+      apt: name=docker-engine update_cache=yes
+
+    - service: name=docker state=restarted
+
+- name: Download and start container
+  hosts: gce_instance_ip
+  connection: ssh
+  become: true
+
+  tasks:
+#    - name: log into docker hub registry
+#      docker_login:
+#        email: "your-email@address"
+#        username: "a-dockerhub-username"
+#        password: "a-dockerhub-password"
+
+    - name: ensure a container is running
+      docker_container:
+        name: odeand14/devopsexam
+        state: started
+        image: "odeand14/devopsexam:latest"
+        pull: true
+        ports:
+          - "80:80"
+
 
 #    - name: delete test-instance
 #      gce:
